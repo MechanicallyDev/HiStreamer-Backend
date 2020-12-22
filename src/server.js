@@ -8,8 +8,10 @@ require('./database/redis/blocklist-accessToken');
 require('./database/redis/allowlist-refreshToken');
 const app = require('./express');
 const routes = require('./routes');
-
-app.use(cors());
+const corsOptions = {
+  exposedHeaders: 'X-Total-Count',
+};
+app.use(cors(corsOptions));
 
 routes(app);
 console.log(`Currently running on ${config.NODE_ENV} environment.`);

@@ -5,5 +5,5 @@ const app = express();
 const { auth } = require('./entities/users/auth/strategy');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(express.static('public'));
 module.exports = app;
