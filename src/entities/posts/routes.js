@@ -1,5 +1,6 @@
 const Controller = require('./controller');
 const { authMiddlewares } = require('../users/composer');
+const cors = require('cors');
 
 module.exports = (app) => {
   app.get('/posts', Controller.index);
