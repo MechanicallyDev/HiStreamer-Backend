@@ -13,7 +13,7 @@ require('./database/redis/allowlist-refreshToken');
 const app = express();
 
 var whitelist = [
-  'http://localhost',
+  'https://134.122.13.32',
   'http://localhost:3000',
   'https://www.histreamer.com',
 ];
