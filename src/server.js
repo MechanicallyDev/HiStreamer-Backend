@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const routes = require('./routes');
 const config = require('./config');
@@ -13,24 +12,27 @@ require('./database/redis/allowlist-refreshToken');
 
 const app = express();
 
-var whitelist = ['http://localhost:3000', 'https://www.histreamer.com'];
+var whitelist = [
+  'http://localhost',
+  'http://localhost:3000',
+  'https://www.histreamer.com',
+];
 var corsOptions = {
   exposedHeaders: 'X-Total-Count',
   methods: ['GET', 'PUT', 'POST', 'DELETE'],
-  origin: '*',
-  // origin: function (origin, callback) {
-  //   if (whitelist.indexOf(origin) !== -1) {
-  //     callback(null, true);
-  //   } else {
-  //     callback(new Error('Not allowed by CORS'));
-  //   }
-  // },
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-//app.use(express.static('public'));
+app.use(express.static('public'));
 routes(app);
 
 console.log(`Currently running on ${config.NODE_ENV} environment.`);
