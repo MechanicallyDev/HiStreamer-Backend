@@ -1,6 +1,3 @@
-const dotenv = require('dotenv');
-dotenv.config({ path: './.env' });
-
 module.exports = {
   development: {
     client: 'sqlite3',
