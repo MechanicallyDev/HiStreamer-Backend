@@ -2,6 +2,7 @@ const knex = require('knex');
 
 const configuration = require('../../knexfile');
 
-const connection = knex(configuration.development);
-
+if (process.env.NODE_ENV === 'development')
+  const connection = knex(configuration.development);
+else const connection = knex(configuration.production);
 module.exports = connection;
