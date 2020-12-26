@@ -13,7 +13,7 @@ module.exports = {
   },
 
   production: {
-    client: process.env.DATABASE_TYPE,
+    client: 'mysql',
     connection: {
       host: '127.0.0.1',
       database: process.env.DATABASE_NAME,
