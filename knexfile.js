@@ -1,5 +1,3 @@
-require('dotenv').config({ path: './' });
-
 module.exports = {
   development: {
     client: 'sqlite3',
