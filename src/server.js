@@ -12,18 +12,18 @@ require('./database/redis/allowlist-refreshToken');
 
 const app = express();
 
-var whitelist = ['http://localhost:3000', 'https://www.histreamer.com'];
+var whitelist = ['http://localhost:3000', 'https://histreamer.com'];
 var corsOptions = {
   exposedHeaders: 'X-Total-Count',
   methods: ['GET', 'PUT', 'POST', 'DELETE'],
-  origin: '*',
-  // origin: function (origin, callback) {
-  //   if (whitelist.indexOf(origin) !== -1) {
-  //     callback(null, true);
-  //   } else {
-  //     callback(new Error('Not allowed by CORS'));
-  //   }
-  // },
+  //origin: '*',
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
 };
 
 app.use(cors(corsOptions));
