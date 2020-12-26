@@ -1,5 +1,18 @@
 require('dotenv').config({ path: '../../' });
 
-const environment = process.env.ENVIRONMENT || 'development';
-const config = require('../../knexfile.js')[environment];
+const config = {
+  client: process.env.DATABASE_TYPE,
+  connection: {
+    database: process.env.DATABASE_NAME,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+  },
+  pool: {
+    min: 2,
+    max: 10,
+  },
+  migrations: {
+    tableName: 'knex_migrations',
+  },
+};
 module.exports = require('knex')(config);
