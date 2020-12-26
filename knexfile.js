@@ -1,3 +1,5 @@
+dotenv.config({ path: './.env' });
+
 module.exports = {
   development: {
     client: 'sqlite3',
