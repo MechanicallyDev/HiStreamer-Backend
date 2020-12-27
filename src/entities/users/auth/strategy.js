@@ -32,7 +32,7 @@ passport.use(
     try {
       const id = await tokens.access.verify(token);
       const user = await User.searchID(id);
-      done(null, user, { token: token });
+      done(null, user, { token });
     } catch (error) {
       done(error);
     }

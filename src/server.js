@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
 const routes = require('./routes');
 const config = require('./config');
 const { auth } = require('./entities/users/auth/strategy');
@@ -11,6 +12,15 @@ require('./database/redis/blocklist-accessToken');
 require('./database/redis/allowlist-refreshToken');
 
 const app = express();
+
+var dbName = process.env.DATABASE_NAME;
+var dbUser = process.env.DATABASE_USER;
+var dbPassword = process.env.DATABASE_PASSWORD;
+
+mongoose.connect(
+  `mongodb+srv://${dbUser}:${dbPassword}@histreamerdb.jju4h.mongodb.net/${dbName}?retryWrites=true&w=majority`,
+  { useNewUrlParser: true, useUnifiedTopology: true }
+);
 
 var whitelist = ['http://localhost:3000', 'https://histreamer.com'];
 var corsOptions = {

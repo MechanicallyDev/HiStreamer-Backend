@@ -40,10 +40,10 @@ module.exports = {
       }
 
       if (!user) {
-        return res.status(401).json({});
+        return res.status(401).json();
       }
 
-      if (user.isVerified === 0) {
+      if (user.verified === false) {
         return res
           .status(401)
           .json({ error: 'You need to verify the e-mail first' });

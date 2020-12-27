@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const validations = require('../../helpers/commonValidations');
 const { InvalidArgumentError } = require('../../helpers/errors');
-const connection = require('../../database/connection');
+const userDAO = require('../../database/mongoDB/userSchema');
 
 class User {
   constructor(user) {
@@ -11,7 +11,7 @@ class User {
     this.email = user.email;
     this.password = user.password;
     this.rule = user.rule;
-    this.isVerified = user.isVerified;
+    this.verified = user.verified;
     this.validate();
   }
   validate() {
@@ -27,15 +27,22 @@ class User {
     }
     const { name, email, password, picture } = this;
     const rule = 'user';
-    await connection('users').insert({
+    const created_at = new Date();
+    const updated_at = new Date();
+    const createdUser = await userDAO.create({
+      id: '0',
       name,
       email,
       password,
       rule,
       picture,
+      verified: false,
+      created_at,
+      updated_at,
     });
-    const { id } = await User.searchEmail(this.email);
-    this.id = id;
+    const { _id } = createdUser;
+    await userDAO.findByIdAndUpdate(_id, { id: _id });
+    this.id = _id;
   }
   async addHashedPassword(password) {
     validations.StringNotNull(password, 'password');
@@ -48,7 +55,7 @@ class User {
     return bcrypt.hash(password, hashCost);
   }
   static async searchID(id) {
-    const user = await connection('users').where('id', id).select('*').first();
+    const user = await userDAO.findById(id);
     if (!user) {
       return null;
     }
@@ -56,10 +63,7 @@ class User {
   }
 
   static async searchEmail(email) {
-    const user = await connection('users')
-      .where('email', email)
-      .select('*')
-      .first();
+    const user = await userDAO.findOne({ email });
     if (!user) {
       return null;
     }
@@ -67,8 +71,8 @@ class User {
   }
 
   static async verifyUser(id) {
-    this.isVerified = 1;
-    await connection('users').where({ id }).update({ isVerified: 1 });
+    this.verified = true;
+    await userDAO.findByIdAndUpdate(id, { verified: true });
   }
 }
 

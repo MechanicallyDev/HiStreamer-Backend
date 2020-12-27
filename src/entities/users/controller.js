@@ -21,7 +21,7 @@ module.exports = {
       await user.addHashedPassword(password);
       await user.create();
       const emailtoken = tokens.emailVerification.create(user.id);
-      const link = generateLink('user/verify_email', emailtoken);
+      const link = generateLink('api/user/verify_email', emailtoken);
       const verificationEmail = new VerificationEmail(user, link);
       verificationEmail.sendMail().catch(console.log);
       res.status(201).json();
@@ -45,7 +45,7 @@ module.exports = {
     try {
       const id = await tokens.emailVerification.verify(req.params.token);
       const user = await User.searchID(id);
-      if (user.isVerified === 1)
+      if (user.verified)
         return res
           .status(400)
           .json({ error: 'This user was already verified' });

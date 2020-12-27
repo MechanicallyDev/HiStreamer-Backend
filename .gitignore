@@ -3,6 +3,7 @@ node_modules
 .env
 src/database/dev_db.sqlite3
 /public/posts/*
+src/database/old/
 
 #Exceptions:
 !/public/*/readme.md
