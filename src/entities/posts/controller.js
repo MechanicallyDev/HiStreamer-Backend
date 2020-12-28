@@ -42,7 +42,6 @@ module.exports = {
     const created_at = new Date();
     const updated_at = new Date();
     const createdPost = await postDAO.create({
-      id: '0',
       title,
       description,
       image,

@@ -9,7 +9,6 @@ const postSchema = new mongoose.Schema({
   slug: String,
   created_at: Date,
   updated_at: Date,
-  last_login: Date,
 });
 
 module.exports = mongoose.model('post', postSchema);
