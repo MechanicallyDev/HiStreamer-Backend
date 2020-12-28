@@ -39,6 +39,8 @@ module.exports = {
   async create(req, res) {
     const { title, description, image, slug } = req.body;
     const token = req.headers.authorization;
+    const created_at = new Date();
+    const updated_at = new Date();
     const createdPost = await postDAO.create({
       id: '0',
       title,
@@ -46,6 +48,8 @@ module.exports = {
       image,
       slug,
       author: req.user.id,
+      created_at,
+      updated_at,
     });
 
     const { _id } = createdPost;
