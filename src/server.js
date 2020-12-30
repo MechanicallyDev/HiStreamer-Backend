@@ -22,24 +22,20 @@ mongoose.connect(
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 
-var whitelist = ['http://localhost:3000', 'https://histreamer.com'];
+var originEnv =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3000'
+    : 'https://histreamer.com';
 var corsOptions = {
   exposedHeaders: 'X-Total-Count',
   methods: ['GET', 'PUT', 'POST', 'DELETE'],
-  origin: 'https://histreamer.com',
-  // origin: function (origin, callback) {
-  //   if (whitelist.indexOf(origin) !== -1) {
-  //     callback(null, true);
-  //   } else {
-  //     callback(new Error('Not allowed by CORS'));
-  //   }
-  // },
+  origin: originEnv,
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use('/files', express.static('public'));
 routes(app);
 
 console.log(`Currently running on ${config.NODE_ENV} environment.`);
