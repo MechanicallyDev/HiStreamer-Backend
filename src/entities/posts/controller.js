@@ -1,4 +1,3 @@
-const fs = require('fs');
 const userDAO = require('../../database/mongoDB/userSchema');
 const postDAO = require('../../database/mongoDB/postSchema');
 
@@ -46,10 +45,7 @@ module.exports = {
         );
       }
 
-      if (
-        !postInfo ||
-        !fs.existsSync(`public/posts/${slug}/${slug}.md` || !authorInfo)
-      ) {
+      if (!postInfo || !authorInfo) {
         return res.json({ post: postInfo404, author: authorInfo404 });
       }
 
