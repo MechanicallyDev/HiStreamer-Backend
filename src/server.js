@@ -35,7 +35,6 @@ var corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/files', express.static('public'));
 routes(app);
 
 console.log(`Currently running on ${config.NODE_ENV} environment.`);

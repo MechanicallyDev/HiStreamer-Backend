@@ -37,7 +37,7 @@ module.exports = {
       let authorInfo = {};
       let postInfo = await postDAO.findOne(
         { slug },
-        'title author image slug created_at updated_at -_id'
+        'title author content image slug created_at updated_at -_id'
       );
       if (postInfo !== null) {
         authorInfo = await userDAO.findOne(
@@ -66,12 +66,14 @@ module.exports = {
     const { title, description, image, slug } = req.body;
     const created_at = new Date();
     const updated_at = new Date();
+    const content = '';
     const createdPost = await postDAO.create({
       title,
       description,
       image,
       slug,
       author,
+      content,
       created_at,
       updated_at,
     });
