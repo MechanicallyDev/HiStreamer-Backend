@@ -10,7 +10,7 @@ module.exports = {
     if (count < page * itemsPerPage)
       page = 1 + Math.floor(count / itemsPerPage);
     const posts = await postDAO
-      .find({}, 'title description image slug -_id')
+      .find({}, 'title description image slug tags -_id')
       .skip((page - 1) * itemsPerPage)
       .limit(itemsPerPage);
 
@@ -36,7 +36,7 @@ module.exports = {
       let authorInfo = {};
       let postInfo = await postDAO.findOne(
         { slug },
-        'title author content image slug created_at updated_at -_id'
+        'title author content image slug tags created_at updated_at -_id'
       );
       if (postInfo !== null) {
         authorInfo = await userDAO.findOne(
@@ -68,6 +68,7 @@ module.exports = {
       description,
       image,
       slug,
+      tags,
       author,
       content,
       created_at,
