@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const routes = require('./routes');
 const config = require('./config');
 const { auth } = require('./entities/users/auth/strategy');
+const path = require('path');
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
@@ -35,6 +36,7 @@ var corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/files', express.static(process.env.STATIC_SERVER_PATH));
 routes(app);
 
 console.log(`Currently running on ${config.NODE_ENV} environment.`);
