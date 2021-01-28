@@ -3,7 +3,8 @@ const postDAO = require('../../database/mongoDB/postSchema');
 
 module.exports = {
   async index(req, res) {
-    let { page = 1, tags='' } = req.query;
+    let { page = 1, tags='', language="en-US" } = req.query;
+    const lang = language.substring(0,2);
     const itemsPerPage = 6;
     const count = await postDAO.countDocuments();
     if (page <= 0) page = 1;
@@ -12,7 +13,7 @@ module.exports = {
     
     const regex = new RegExp(tags, 'i') // i for case insensitiv
     const posts = await postDAO
-      .find({tags:{$regex: regex}}, 'title description image slug tags -_id')
+      .find({tags:{$regex: regex}, language: lang}, 'title description image slug tags -_id')
       .skip((page - 1) * itemsPerPage)
       .limit(itemsPerPage);
   
